@@ -10,7 +10,7 @@ services:
     environment:
           - DB_USERNAME=postgres
           - DB_PASSWORD=InfraAWS_2025
-          - DB_DATABASE=catalogo_jogos
+          - DB_DATABASE=aws-db
           - DB_HOST=aws-db.c1dzzl7szzye.us-east-1.rds.amazonaws.com
 
     ports:
