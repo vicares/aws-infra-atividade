@@ -5,12 +5,15 @@ services:
     depends_on:
       - db
     environment:
-      - DB_HOST=db
-      - DB_USER=postgres
-      - DB_PASS=postgres
-      - DB_NAME=catalogo_jogos
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      - DOCKER_TARGET=${DOCKER_TARGET}
     ports:
-      - "3001:3001"
+      - "${APP_PORT}:${APP_PORT}"
     volumes:
       - .:/app
       - /app/node_modules
@@ -23,11 +26,12 @@ services:
     container_name: catalogo_jogos_db
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: catalogo_jogos
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+      PGPORT: ${DB_PORT}
     ports:
-      - "5432:5432"
+      - "${DB_PORT}:5432"
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
@@ -38,8 +42,8 @@ services:
     container_name: pgadmin4
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@email.com
-      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_USER}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD}
     ports:
       - "5050:80"
     depends_on:
