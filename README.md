@@ -19,114 +19,76 @@ Neste repositório estão contidos os arquivos referentes a construção de um p
 ### **Grupos de segurança**
 
 Para a realização deste trabalho foram criados dois Security Groups (SG), um para o EC2 e o outro para o RDS.
-- EC2: Foi criado o SG com chamado de aws_ssh e foram adicionadas regras de entrada para acesso HTTP através da porta 80 e acesso SSH através da porta 22.
+- EC2: Foi criado o SG com chamado de `aws_ssh` e foram adicionadas regras de entrada para acesso HTTP através da porta 80 e acesso SSH através da porta 22.
 
-![Texto alternativo](aws-infra-atividade/midia/aws_ssh.png)
-aws-infra-atividade\midia
+![Erro ao carregar imagem.](/midia/aws_ssh.png)
 
-- 
-### **Gerenciamento de Usuários**
+- RDS: Foi criado o SG chamando de `aws-rds`, ele foi configurado com regra de entrada dando acesso a porta 5432 do PostgreSQL e para ter apenas a `aws_ssh` como fonte.
 
-- Listar usuários cadastrados (Admin)
-- Deletar usuários (Admin)
 
-### **Sistema de Comentários**
+![Erro ao carregar imagem.](/midia/aws-rds.png)
 
-- Criar comentários vinculados a um usuário
-- Listar comentários com nome de usuário
+### **Configuração da Key Pair**
 
-## Instalação e Execução
+Para a configuração da chave SSH foi dado o nome `aws_aula02` e foram marcadas as opções `RSA` e `.pem`. 
 
-### **1. Clone o repositório**
+![Erro ao carregar imagem.](/midia/chave_ssh.png)
 
-```bash
-git clone https://github.com/seu-usuario/catalogo-jogos-api.git
-cd catalogo-jogos-api
-```
+### **Configuração do EC2**
 
-### **2. Configure as variáveis de ambiente**
+A instância foi nomeada de `infra_aws_atividade01`. Para a sua configuração, foram selecionadas as opções:
 
-Crie um arquivo `.env` na raiz do projeto e defina as seguintes variáveis:
+- `Amazon Linux`
+- `t2.micro`
+- `aws_aula02`
+- `aws_ssh`
+- `LabInstanceProfile`
 
-```env
-JWT_SECRET=sua_chave_secreta
-```
+![Erro ao carregar imagem.](/midia/EC2_01.png)
 
-### **3. Suba os containers com Docker**
+![Erro ao carregar imagem.](/midia/EC2_02.png)
 
-```bash
-docker-compose up -d
-```
+![Erro ao carregar imagem.](/midia/EC2_03.png)
 
-### **4. Acesse o terminal do container em execução**
+![Erro ao carregar imagem.](/midia/EC2_04.png)
 
-```bash
-docker exec -it catalogo_jogos_api /bin/sh
-```
+### **Configuração do RDS**
 
-### **5. Execute as migrações**
+O  RDS foi nomeado de `infra_aws_atividade01`. Para a sua configuração, foram selecionadas as opções:
 
-```bash
-npx sequelize-cli db:migrate
-```
+- `Standard Create`
+- `PostgreSQL`
+- `PostgreSQL 17.2-R1`
+- `Free tier`
+- `Nome: postgres`
+- `Senha: *************`
+- `Security Group: aws-rds`
+- `nome inicial: catalogo_jogos`
 
-O servidor estará rodando em `http://localhost:3001`.
+![Erro ao carregar imagem.](/midia/RDS01.png)
 
-## Verificando o pgAdmin
+![Erro ao carregar imagem.](/midia/RDS02.png)
 
-### **1. Acesse no navegador**
+![Erro ao carregar imagem.](/midia/RDS03.png)
 
-```bash
-http://localhost:5050
-```
-### **2. Coloque as informações de acesso**
+![Erro ao carregar imagem.](/midia/RDS04.png)
 
-**Login:** `admin@email.com`
+![Erro ao carregar imagem.](/midia/RDS05.png)
 
-**Senha:** `admin`
+## Execução da atividade
 
-### **3. Adicionar Novo Servidor**
+- Foi utilizado um terminal WSL2 emulando um Ubuntu no Windows 10 por meio do comando:
 
- 1) Vá em Adicionar Novo Servidor
- 2) De um nome para o servidor
- 3) Vá em conexão e preencha com os seguintes dados:
+  ```wsl.exe -d Ubuntu```
 
-- `Host: db`
-- `Port: 5432`
-- `Database: postgres`
-- `Username: postgres`
-- `Senha: postgres`
-  
- 4) Salve as alterações
- 
-### **4. Visualização das tabelas**
+- A conexão foi realizada a partir da chave SSH criada. por meio do comando:
 
-Para ver as tabelas e informações do banco de dados siga os seguintes passos:
+  ``` ssh -i "aws_aula02.pem" ec2-user@ec2-98-81-213-43.compute-1.amazonaws.com ```
 
-`Servers -> seu_banco_de_dados -> Bancos de dados -> catalogo_jogos -> Esquemas -> Tabelas -> botão direito na tabela desejada -> Visualizar/Editar dados -> Primeiras 100 linhas`
- 
-## Rotas da API
+Já o teste de conexão com o banco de dados foi feito por meio do Netcat com o comando:
 
-### **Usuários**
+  ```nc -zv aws-db.c1dzzl7szzye.us-east-1.rds.amazonaws.com 5432```
 
-- `POST /register` - Cria um novo usuário
-- `POST /index` - Autentica um usuário
-- `GET /users` - Lista todos os usuários (Admin)
-- `DELETE /users/:id` - Remove um usuário (Admin)
-
-### **Comentários**
-
-- `POST /comments` - Adiciona um comentário
-- `GET /comments` - Lista todos os comentários
-
-## Melhorias Futuras
-
-- Aprimorar o front end para uma melhor estilização
-- Implementar upload de imagem de perfil
-- Melhorar a interface do usuário
-- Criar sistema de likes nos comentários
-- Adicionar jogos reais com links e informações
-- Criar botão de logout
 
 ## Autor
 
