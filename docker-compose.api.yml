@@ -8,13 +8,13 @@ services:
 
     container_name: catalogo_jogos_api
     environment:
-          - DB_USERNAME=${DB_USERNAME}
-          - DB_PASSWORD=${DB_PASSWORD}
-          - DB_DATABASE=${DB_DATABASE}
-          - DB_HOST=${DB_HOST}
+          - DB_USERNAME=postgres
+          - DB_PASSWORD=InfraAWS_2025
+          - DB_DATABASE=catalogo_jogos
+          - DB_HOST=aws-db.c1dzzl7szzye.us-east-1.rds.amazonaws.com
 
     ports:
-      - ${APP_PORT}:${APP_PORT}
+      - 3001:3001
     volumes:
       - .:/app
       - /app/node_modules
