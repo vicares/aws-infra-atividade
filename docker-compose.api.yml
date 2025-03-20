@@ -1,0 +1,21 @@
+services:
+  
+  app:
+    
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: catalogo_jogos_api
+    environment:
+          - DB_USERNAME=${DB_USERNAME}
+          - DB_PASSWORD=${DB_PASSWORD}
+          - DB_DATABASE=${DB_DATABASE}
+          - DB_HOST=${DB_HOST}
+
+    ports:
+      - ${APP_PORT}:${APP_PORT}
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: ["npm", "run", "start"]
