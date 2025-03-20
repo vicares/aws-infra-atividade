@@ -1,57 +1,30 @@
-# Catálogo de Jogos API
+# Atividade de conexão EC2 com RDS
 
 ## Descrição
 
-Este é um projeto de API para um catálogo de jogos desenvolvido com **Node.js**, **PostgreSQL** e **Docker**. A aplicação permite o cadastro e login de usuários com diferentes papéis (Aluno ou Professor), a princípio o login leva a um vídeo com a opção de deixar comentários abaixo.
+Este trabalho faz parte dos pré-requisitos para a conclusão da disciplina Infraestrutura de Nuvem com AWS e a sua execução foi realizada por meio de acesso ao AWS academy.
 
 ## Objetivo
 
-Este projeto foi feito como um dos requisitos para a conclusão da diciplina Infraestrutura em Nuvem com AWS. A idéia é criar uma API que realize operações CRUD para conversar com um banco de dados PostgreSQL, inserida em um Docker. E então utiliza-la na implementação nas atividades do curso de certificação da AWS Cloud Practitioner.
+O objetivo desse trabalho era instanciar um EC2 e e um banco de dados gerenciado via RDS. para criar uma estrutura básica AWS, ambos com as devidas configurações dos grupos de segurança.
 
-## Tecnologias Utilizadas
+## Visão geral
 
-- **Node.js** - Ambiente de execução JavaScript
-- **Express.js** - Framework para APIs REST
-- **PostgreSQL** - Banco de dados relacional
-- **Sequelize** - ORM para interação com o banco de dados
-- **Docker** - Containerização da aplicação (3 containers: banco de dados, API e pgAdmin4)
-- **JWT** - Autenticação segura de usuários
-- **Bcrypt.js** - Criptografia de senhas
-- **HTML** - Criação do front end
-- **CSS** - Estilização do front end
+Neste repositório estão contidos os arquivos referentes a construção de um preview de uma tela de login para um catálogo de jogos digitais, mas o foco da atual atividade era a utilização de ferramentas disponibilizadas pela AWS por em prática o que foi aprendido durante as aulas do curso de Engenharia da Computação.
 
-## Estrutura do Banco de Dados
 
-A API possui duas tabelas principais:
 
-### **Tabela Users**
+## Passo a passo
 
-| Campo     | Tipo       | Descrição                          |
-| --------- | ---------- | ---------------------------------- |
-| id        | UUID (PK)  | Identificador único do usuário     |
-| email     | STRING (U) | Email para login                   |
-| password  | STRING     | Senha criptografada                |
-| username  | STRING (U) | Nome de usuário exclusivo          |
-| role      | ENUM       | Papel do usuário (Aluno/Professor) |
-| createdAt | TIMESTAMP  | Data de criação                    |
-| updatedAt | TIMESTAMP  | Data da última atualização         |
+### **Grupos de segurança**
 
-### **Tabela Comments**
+Para a realização deste trabalho foram criados dois Security Groups (SG), um para o EC2 e o outro para o RDS.
+- EC2: Foi criado o SG com chamado de aws_ssh e foram adicionadas regras de entrada para acesso HTTP através da porta 80 e acesso SSH através da porta 22.
 
-| Campo    | Tipo      | Descrição                          |
-| -------- | --------- | ---------------------------------- |
-| id       | UUID (PK) | Identificador único do comentário  |
-| message  | TEXT      | Conteúdo do comentário             |
-| id\_user | UUID (FK) | ID do usuário que fez o comentário |
+![Texto alternativo](aws-infra-atividade/midia/aws_ssh.png)
+aws-infra-atividade\midia
 
-## Funcionalidades
-
-### **Autenticação de Usuários**
-
-- Criar conta (Registro)
-- Login com JWT
-- Armazenamento seguro de senhas
-
+- 
 ### **Gerenciamento de Usuários**
 
 - Listar usuários cadastrados (Admin)
